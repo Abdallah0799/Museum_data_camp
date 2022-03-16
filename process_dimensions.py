@@ -48,5 +48,3 @@ for dim_description in df["Dimensions"].unique()[:100]:
     print(find_dims(dim_description))
     print("*"*50)
 
-print("hello")
-
