@@ -1,0 +1,4 @@
+data_loic_terence.csv filter=lfs diff=lfs merge=lfs -text
+data_loic.txt filter=lfs diff=lfs merge=lfs -text
+MetObjects.txt filter=lfs diff=lfs merge=lfs -text
+data_loic.csv filter=lfs diff=lfs merge=lfs -text
