@@ -8,7 +8,7 @@ import numpy as np
 problem_title = 'Museum object estimation'
 _target_column_name = 'Historical Period'
 
-_prediction_label_names = ["Modern Times", "Contemporary Era", "Antiquity", "Middle Ages"] 
+_prediction_label_names = ["Antiquity", "Contemporary Era", "Middle Ages", "Modern Times"] 
 
 Predictions = rw.prediction_types.make_multiclass(label_names=_prediction_label_names)
 
@@ -41,5 +41,5 @@ def get_test_data(path='.'):
 
 
 def get_cv(X, y):
-    cv = StratifiedShuffleSplit(n_splits=8, test_size=0.2, random_state=0)
+    cv = StratifiedShuffleSplit(n_splits=10, test_size=0.2, random_state=0)
     return cv.split(X, y)

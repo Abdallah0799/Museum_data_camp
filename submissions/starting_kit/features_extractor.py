@@ -92,6 +92,6 @@ class FeatureExtractor(object):
         X_output.drop([TARGET_COL], axis=1, inplace=True)
         if 'Unnamed:  0' in X_output.columns:
             X_output.drop(['Unnamed:  0'], axis=1, inplace=True)
-        return X_output.values
+        return X_output[['Medium', 'Classification', 'Culture', 'height', 'diam', 'width','depth']].values
         
         

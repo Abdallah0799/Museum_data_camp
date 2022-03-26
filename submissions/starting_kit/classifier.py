@@ -5,9 +5,7 @@ from sklearn.decomposition import PCA
 
 class Classifier(BaseEstimator):
     def __init__(self):
-        self.classifier = RandomForestClassifier(
-            n_estimators=100, max_depth=20, random_state=0)
-        
+        self.classifier = RandomForestClassifier(n_estimators=100, max_depth=50, random_state=0)
 
     def fit(self, X, y):
         """
