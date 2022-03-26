@@ -1,3 +1,4 @@
+import tarfile
 from rampwf.workflows import FeatureExtractor
 from sklearn.compose import ColumnTransformer
 from sklearn.feature_extraction.text import CountVectorizer
@@ -7,6 +8,10 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import FunctionTransformer
 from sklearn.impute import SimpleImputer
 import numpy as np
+import warnings
+warnings.filterwarnings('ignore')
+
+TARGET_COL = 'Historical Period'
 
 class FeatureExtractor(object):
     
@@ -38,29 +43,30 @@ class FeatureExtractor(object):
             
             return X['Medium']
         
-        def mean_target_encoding_classif(df):
+        def mean_target_encoding_classif(X):
+            X["num_period"] = [self.map_period[period] for period in X[TARGET_COL]]
+            tmp_classif = X.groupby(["Classification"]).describe()
+            col_to_select = [col for col in tmp_classif.columns if "num_period" in col and "mean" in col][0]
+            map_classif = {classif_cat: classif_num for (classif_cat, classif_num) in zip(tmp_classif.index, tmp_classif[col_to_select])}
             
-            df["num_period"] = [self.map_period[period] for period in y]
-            tmp_classif = df.groupby(["Classification"]).describe()
-            map_classif = {classif_cat: classif_num for (classif_cat, classif_num) in zip(tmp_classif.index, tmp_classif[('num_period', 'mean')])}
-            
-            Classification = [map_classif[m] for m in df["Classification"]]
+            Classification = [map_classif[m] for m in X["Classification"]]
             return np.array(Classification).reshape(-1,1)
         
-        def mean_target_encoding_medium(df):
-            df["num_period"] = [self.map_period[period] for period in y]
-            tmp_medium = df.groupby(["Medium"]).describe()
-            map_medium = {medium_cat: medium_num for (medium_cat, medium_num) in zip(tmp_medium.index, tmp_medium[('num_period', 'mean')])}
-            
-            Medium = [map_medium[m] for m in df["Medium"]]
+        def mean_target_encoding_medium(X):
+            X["num_period"] = [self.map_period[period] for period in X[TARGET_COL]]
+            tmp_medium = X.groupby(["Medium"]).describe()
+            col_to_select = [col for col in tmp_medium.columns if "num_period" in col and "mean" in col][0]
+            map_medium = {medium_cat: medium_num for (medium_cat, medium_num) in zip(tmp_medium.index, tmp_medium[col_to_select])}
+            Medium = [map_medium[m] for m in X["Medium"]]
             return np.array(Medium).reshape(-1,1)
         
-        def mean_target_encoding_culture(df):
-            df["num_period"] = [self.map_period[period] for period in y]
-            tmp_culture = df.groupby(["Culture"]).describe()
-            map_culture = {culture_cat: culture_num for (culture_cat, culture_num) in zip(tmp_culture.index, tmp_culture[('num_period', 'mean')])}
+        def mean_target_encoding_culture(X):
+            X["num_period"] = [self.map_period[period] for period in X[TARGET_COL]]
+            tmp_culture = X.groupby(["Culture"]).describe()
+            col_to_select = [col for col in tmp_culture.columns if "num_period" in col and "mean" in col][0]
+            map_culture = {culture_cat: culture_num for (culture_cat, culture_num) in zip(tmp_culture.index, tmp_culture[col_to_select])}
             
-            Culture = [map_culture[m] for m in df["Culture"]]
+            Culture = [map_culture[m] for m in X["Culture"]]
             return np.array(Culture).reshape(-1,1)
         
         MTE_classif = FunctionTransformer(mean_target_encoding_classif, validate=False)
@@ -70,23 +76,21 @@ class FeatureExtractor(object):
         #column transformer
         preprocessor = ColumnTransformer(
             transformers=[
-                ('medium_extraction', make_pipeline(MTE_medium, SimpleImputer(strategy="constant", fill_value=-1)), ['Medium']),
-                ('mte_classif', MTE_classif, ['Classification']),
-                ('mte_culture', MTE_culture,  ['Culture'])
+                ('medium_extraction', make_pipeline(MTE_medium, SimpleImputer(strategy="constant", fill_value=-1)), ['Medium', 'Historical Period']),
+                ('mte_classif', MTE_classif, ['Classification', 'Historical Period']),
+                ('mte_culture', MTE_culture,  ['Culture', 'Historical Period'])
             ])
         
         X['Medium'] = medium_extraction(X)
-        
         self.prepocessor = preprocessor
-        
         self.prepocessor.fit(X, y)
     
     def transform(self, X):
-        print(X.shape)
         transformation = self.prepocessor.transform(X)
         X[['Medium', 'Classification', 'Culture']] = transformation
-        
+        X.drop([TARGET_COL], axis=1, inplace=True)
+        if 'Unnamed:  0' in X.columns:
+            X.drop(['Unnamed:  0'], axis=1, inplace=True)
         return X.values
-        
         
         
