@@ -25,8 +25,9 @@ score_types = [rw.score_types.Accuracy(name='acc')]
 def _read_data(path, f_name):
     data = pd.read_csv(os.path.join(path, 'data', f_name))
     y_array = data[_target_column_name].values
-    X_df = data.drop([_target_column_name], axis=1)
-    return X_df, y_array
+    #X_df = data.drop([_target_column_name], axis=1)
+    #return X_df, y_array
+    return data, y_array
 
 
 def get_train_data(path='.'):
