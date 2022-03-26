@@ -21,9 +21,9 @@ class FeatureExtractor(object):
     def fit(self, X, y):
         
         # feature selection on the Medium column
-        
+        X_copy = X.copy()
         def medium_extraction(X):
-            val_medium = X['Medium'].values
+            val_medium = X['Medium'].values.copy()
             Medium = []
             sep = ","
 
@@ -38,10 +38,10 @@ class FeatureExtractor(object):
                 arr = sep.join(arr)
                 Medium.append(arr)
             
-            X['Medium'] = Medium
-            X[X['Medium']==""]=pd.NA
+            Medium = np.array(Medium)
+            Medium[Medium==""]=pd.NA
             
-            return X['Medium']
+            return Medium
         
         def mean_target_encoding_classif(X):
             X["num_period"] = [self.map_period[period] for period in X[TARGET_COL]]
@@ -81,16 +81,17 @@ class FeatureExtractor(object):
                 ('mte_culture', MTE_culture,  ['Culture', 'Historical Period'])
             ])
         
-        X['Medium'] = medium_extraction(X)
+        X_copy['Medium'] = medium_extraction(X)
         self.prepocessor = preprocessor
-        self.prepocessor.fit(X, y)
+        self.prepocessor.fit(X_copy, y)
     
     def transform(self, X):
         transformation = self.prepocessor.transform(X)
-        X[['Medium', 'Classification', 'Culture']] = transformation
-        X.drop([TARGET_COL], axis=1, inplace=True)
-        if 'Unnamed:  0' in X.columns:
-            X.drop(['Unnamed:  0'], axis=1, inplace=True)
-        return X.values
+        X_output = X.copy()
+        X_output[['Medium', 'Classification', 'Culture']] = transformation
+        X_output.drop([TARGET_COL], axis=1, inplace=True)
+        if 'Unnamed:  0' in X_output.columns:
+            X_output.drop(['Unnamed:  0'], axis=1, inplace=True)
+        return X_output.values
         
         

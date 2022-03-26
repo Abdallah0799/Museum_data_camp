@@ -11,5 +11,5 @@ class Classifier(BaseEstimator):
     def fit(self, X, y):
         self.classifier.fit(X, y)
 
-    def predict(self, X):
-        return self.classifier.predict(X)
+    def predict_proba(self, X):
+        return self.classifier.predict_proba(X)
