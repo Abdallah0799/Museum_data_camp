@@ -33,4 +33,4 @@ Notice that this unit test run in the folder submissions/starting_kit.
 Before running the test, make sure you have :
 * Installed ramp-workflow.
 * Installed the requirements ( `pip install -r requirements.txt` ).
-* Put your python file under the `submissions/starting_kit` folder.
+* Put your solution files (feature extractor and a classifier) under the `submissions/starting_kit` folder.
