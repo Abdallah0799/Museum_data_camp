@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import rampwf as rw
 from rampwf.workflows import FeatureExtractorClassifier
+from rampwf.score_types.base import BaseScoreType
 from sklearn.model_selection import StratifiedShuffleSplit
 import numpy as np
 
@@ -20,7 +21,7 @@ class Workflow(FeatureExtractorClassifier):
 
 workflow = Workflow()
 
-score_types = [rw.score_types.Accuracy(name='acc')]
+score_types = [rw.score_types.Accuracy("accuracy"), rw.score_types.NegativeLogLikelihood("nll")]
 
 def _read_data(path, f_name):
     data = pd.read_csv(os.path.join(path, 'data', f_name))
@@ -31,12 +32,12 @@ def _read_data(path, f_name):
 
 
 def get_train_data(path='.'):
-    f_name = 'museum_data_train.csv'
+    f_name = 'data_train.csv'
     return _read_data(path, f_name)
 
 
 def get_test_data(path='.'):
-    f_name = 'museum_data_test.csv'
+    f_name = 'data_test.csv'
     return _read_data(path, f_name)
 
 
