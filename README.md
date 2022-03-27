@@ -27,6 +27,9 @@ Authors :
 * The categorical cross-entropy, which is the basic loss function for multiclass classification problems
 * We will also look at the accuracy of our results
 
+## Preprocessing of the data
+There is a file process_data.py which is used for preprocessing of features in the dataset. The functions of this file are used in the notebook museum_objects.ipynb
+
 ## Submission
 Before submitting make sure to test your model and check that everything works fine. 
 In order to do that you can run : 
