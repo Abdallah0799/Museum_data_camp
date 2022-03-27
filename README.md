@@ -30,6 +30,11 @@ Authors :
 ## Preprocessing of the data
 There is a file process_data.py which is used for preprocessing of features in the dataset. The functions of this file are used in the notebook museum_objects.ipynb
 
+## Starting kit
+
+The notebook presenting the context of the problem is `museum_objects.ipynb`. You can find all our choices to tackle the problem, and some data visualization.
+You can also find the first model used as a first baseline in the folder `submissions/starting_kit`
+
 ## Submission
 Before submitting make sure to test your model and check that everything works fine. 
 In order to do that you can run : 
