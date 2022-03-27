@@ -1,5 +1,15 @@
 # Museum_data_camp
 
+Authors :
+
+- Abdallah GAZAL
+- Terence NGO
+- Cynthia WANG
+- Loic MARY
+- Anton EMELCHENKOV
+- Slimane BAAMARA
+
+
 ## Context
 
 <br> The art market reached a world record in 2021: auctions reached a total of $17 billion. This market is not the best known, but it is growing and more and more people want to buy a work of art. In this context, machine learning could play a major role in the development of the art market. To project oneself and precisely understand the possible contributions of machine learning to the art market, it is necessary to start from the current problems of the market. If we look in more detail at main actors of the market (buyers, sellers, etc.), one of their major issue is the valuation of art objects. Usually, professionals give an estimate of the value by carrying out a scrupulous examination of the object. However, their work is tedious, time-consuming and the estimate could be wrong.</br>
