@@ -5,7 +5,7 @@ Authors :
 - Abdallah GAZAL
 - Terence NGO
 - Cynthia WANG
-- Loic MARY
+- Loïc MARY
 - Anton EMELCHENKOV
 - Slimane BAAMARA
 
