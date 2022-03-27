@@ -24,7 +24,7 @@ Authors :
 
 <p>For the metrics, we will look at :</p>
 
-* The categorical cross-entropy, which is the basic loss function for multiclass classification problems
+* The Negative log likelihood, this loss function is often used for multiclass classification problems
 * We will also look at the accuracy of our results
 
 ## Preprocessing of the data
